@@ -1,5 +1,6 @@
 package com.cartismh.user;
 
+import com.cartismh.user.dto.UserCreationDTO;
 import com.cartismh.user.dto.UserDTO;
 import com.cartismh.user.dto.UserListDTO;
 import com.cartismh.user.dto.UserMinimalDTO;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -41,15 +43,14 @@ public class UserService {
     public UserDTO edit(Long id, UserDTO user) {
         User actUser = findById(id);
         actUser.setEmail(user.getEmail());
-        actUser.setPassword(user.getName());
-        actUser.setUsername(user.getName());
+        actUser.setUsername(user.getUsername());
 
 
         if (user.getRoles() == null){
-            throw new RuntimeException("Cannot find role for user: " + user.getName());
+            throw new RuntimeException("Cannot find role for user: " + user.getUsername());
         }
         else{
-            Set<Role> roles = (Set<Role>) user.getRoles().stream().map((String role) -> roleRepository.findByName(ERole.valueOf(role)));
+            Set<Role> roles = user.getRoles().stream().map((String role) -> roleRepository.findByName(ERole.valueOf(role)).orElseThrow()).collect(Collectors.toSet());
             actUser.setRoles(roles);
         }
         return userMapper.userDtoFromUser(
@@ -74,20 +75,20 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public UserDTO create(UserDTO user) {
+    public UserDTO create(UserCreationDTO user) {
 
-        User actUser = userMapper.fromDto(user);
+        User actUser = userMapper.userFromUserCreationDTO(user);
 
         if (userRepository.existsByUsername(actUser.getUsername()))
-            throw new RuntimeException("User with username:" + user.getName()+" already exists");
+            throw new RuntimeException("User with username:" + user.getUsername()+" already exists");
         if (userRepository.existsByEmail(actUser.getEmail()))
-            throw new RuntimeException("User with email:" + user.getName()+" already exists");
+            throw new RuntimeException("User with email:" + user.getUsername()+" already exists");
 
         if (user.getRoles() == null){
-            throw new RuntimeException("Cannot find role for user: " + user.getName());
+            throw new RuntimeException("Cannot find role for user: " + user.getUsername());
         }
         else{
-            Set<Role> roles = (Set<Role>) user.getRoles().stream().map((String role) -> roleRepository.findByName(ERole.valueOf(role)));
+            Set<Role> roles = user.getRoles().stream().map((String role) -> roleRepository.findByName(ERole.valueOf(role)).orElseThrow()).collect(Collectors.toSet());
             actUser.setRoles(roles);
         }
 

@@ -75,4 +75,8 @@ public class BookService {
         }else
             return false;
     }
+
+    public List<BookDTO> filter(String title, String author, String genre) {
+        return bookRepository.findBooksByTitleAndAuthorAndGenre(title, author, genre).stream().map(bookMapper::toDto).collect(Collectors.toList());
+    }
 }

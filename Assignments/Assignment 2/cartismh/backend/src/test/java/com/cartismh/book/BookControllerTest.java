@@ -14,8 +14,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.List;
 
 import static com.cartismh.TestCreationFactory.*;
-import static com.cartismh.UrlMapping.BOOKS;
-import static com.cartismh.UrlMapping.ENTITY;
+import static com.cartismh.UrlMapping.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -132,5 +131,19 @@ class BookControllerTest extends BaseControllerTest {
 
         ResultActions result = performDeleteWithPathVariable(BOOKS + ENTITY, id);
         result.andExpect(status().isOk());
+    }
+
+    @Test
+    void filter() throws Exception {
+        String title = randomString();
+        String author = randomString();
+        String genre = randomString();
+
+        List<BookDTO> bookListDTOs = TestCreationFactory.listOf(BookDTO.class);
+        when(bookService.filter(title,author,genre)).thenReturn(bookListDTOs);
+
+        ResultActions result = performGetWithRequestBodies(BOOKS+FILTER, title,author,genre);
+        result.andExpect(status().isOk())
+                .andExpect(jsonContentToBe(bookListDTOs));
     }
 }

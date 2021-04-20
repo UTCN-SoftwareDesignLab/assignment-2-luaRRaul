@@ -13,11 +13,14 @@
           <v-text-field v-model="user.username" label="Username" />
           <v-text-field v-model="user.email" label="Email" />
           <v-text-field v-model="user.password" label="Password" />
-          <v-text-field v-model="user.role" label="Role" />
+          <v-text-field v-model="user.roles" label="Roles" />
         </v-form>
         <v-card-actions>
           <v-btn @click="persist">
             {{ isNew ? "Create" : "Save" }}
+          </v-btn>
+          <v-btn @click="delet">
+            Delete
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -35,6 +38,11 @@ export default {
     opened: Boolean,
   },
   methods: {
+    delet(){
+      api.users.delete({
+        id: this.user.id,
+      }).then(() => this.$emit("refresh"));
+    },
     persist() {
       if (this.isNew) {
         api.users
@@ -42,7 +50,7 @@ export default {
               username: this.user.username,
               email: this.user.email,
               password: this.user.password,
-              role: this.user.role,
+              roles: [this.user.roles],
             })
             .then(() => this.$emit("refresh"));
       } else {
@@ -51,8 +59,7 @@ export default {
               id: this.user.id,
               username: this.user.username,
               email: this.user.email,
-              password: this.user.password,
-              role: this.user.role,
+              roles: this.user.roles,
             })
             .then(() => this.$emit("refresh"));
       }

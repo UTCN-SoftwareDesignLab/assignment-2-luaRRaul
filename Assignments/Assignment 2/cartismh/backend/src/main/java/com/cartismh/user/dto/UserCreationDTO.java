@@ -11,9 +11,10 @@ import java.util.Set;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+public class UserCreationDTO {
     private Long id;
     private String username;
     private String email;
+    private String password;
     private Set<String> roles;
 }

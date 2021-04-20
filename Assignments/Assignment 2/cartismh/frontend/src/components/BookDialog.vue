@@ -23,6 +23,9 @@
           <v-btn @click="sell">
             Sell
           </v-btn>
+          <v-btn @click="delet">
+            Delete
+          </v-btn>
         </v-card-actions>
       </v-card>
     </template>
@@ -39,15 +42,17 @@ export default {
     opened: Boolean,
   },
   methods: {
+    delet(){
+      api.books.delete(
+          {
+            id: this.book.id,
+          }
+      ).then(() => this.$emit("refresh"));
+    },
     sell(){
       api.books.sell(
           {
             id: this.book.id,
-            title: this.book.title,
-            author: this.book.author,
-            genre: this.book.genre,
-            quantity: this.book.quantity,
-            price: this.book.price,
           }
       ).then(() => this.$emit("refresh"));
     },

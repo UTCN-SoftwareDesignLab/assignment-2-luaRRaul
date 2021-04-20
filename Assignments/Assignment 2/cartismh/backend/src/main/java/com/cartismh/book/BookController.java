@@ -43,7 +43,6 @@ public class BookController {
 //        return bookService.changeTitle(id, newName);
 //    }
 
-
     @GetMapping(ENTITY)
     public BookDTO getItem(@PathVariable Long id){
         return bookService.get(id);
@@ -60,5 +59,9 @@ public class BookController {
         return reportServiceFactory.getReportService(type).export();
     }
 
+    @GetMapping(FILTER)
+    public List<BookDTO> filter(@RequestBody String title, @RequestBody String author, @RequestBody String genre){
+        return bookService.filter(title,author,genre);
+    }
 
 }

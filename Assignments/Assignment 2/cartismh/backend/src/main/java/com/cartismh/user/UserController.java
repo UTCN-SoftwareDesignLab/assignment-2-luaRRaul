@@ -1,5 +1,6 @@
 package com.cartismh.user;
 
+import com.cartismh.user.dto.UserCreationDTO;
 import com.cartismh.user.dto.UserDTO;
 import com.cartismh.user.dto.UserListDTO;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +25,9 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDTO create(@RequestBody UserDTO user){
+    public UserDTO create(@RequestBody UserCreationDTO user){
         return userService.create(user);
     }
-
 
     @PutMapping(ENTITY)//full edit
     public UserDTO edit(@PathVariable Long id, @RequestBody UserDTO user){

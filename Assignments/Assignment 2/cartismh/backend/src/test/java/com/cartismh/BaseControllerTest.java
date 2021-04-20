@@ -59,6 +59,15 @@ public abstract class BaseControllerTest {
                 .accept(MediaType.APPLICATION_JSON));
     }
 
+    protected ResultActions performGetWithRequestBodies(String path, Object title, Object author, Object genre) throws Exception {
+        return mockMvc.perform(get(path)
+                .content(asJsonString(title))
+                .content(asJsonString(author))
+                .content(asJsonString(genre))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+    }
+
     protected ResultActions performDeleteWithPathVariable(String path, Object pathVariable) throws Exception {
         return mockMvc.perform(delete(path, pathVariable)
                 .contentType(MediaType.APPLICATION_JSON)

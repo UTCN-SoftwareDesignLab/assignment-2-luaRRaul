@@ -18,8 +18,15 @@ export default {
   edit(user) {
     return HTTP.put(BASE_URL + `/users/${user.id}`, user, { headers: authHeader() }).then(
         (response) => {
-          return response.data;
+          return resporse.data;
         }
     );
   },
+    delete(user) {
+        return HTTP.delete(BASE_URL + `/users/${user.id}`, { headers: authHeader() }).then(
+            (response) => {
+                return response.data;
+            }
+        );
+    },
 };

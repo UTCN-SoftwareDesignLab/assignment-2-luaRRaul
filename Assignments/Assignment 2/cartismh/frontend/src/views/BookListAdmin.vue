@@ -12,6 +12,8 @@
       ></v-text-field>
       <v-btn @click="addBook">Add Book</v-btn>
       <v-btn @click="userManagement">User Management</v-btn>
+      <v-btn @click="generateCSV">Generate CSV</v-btn>
+      <v-btn @click="generatePDF">Generate PDF</v-btn>
     </v-card-title>
     <v-data-table
       :headers="headers"
@@ -56,6 +58,12 @@ export default {
     };
   },
   methods: {
+    generatePDF() {
+      api.books.generatePDF();
+    },
+    generateCSV() {
+      api.books.generateCSV();
+    },
     editBook(book) {
       this.selectedBook = book;
       this.dialogVisible = true;

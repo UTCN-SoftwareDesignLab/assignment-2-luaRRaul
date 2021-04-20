@@ -1,5 +1,6 @@
 package com.cartismh.user.mapper;
 
+import com.cartismh.user.dto.UserCreationDTO;
 import com.cartismh.user.dto.UserDTO;
 import com.cartismh.user.dto.UserListDTO;
 import com.cartismh.user.dto.UserMinimalDTO;
@@ -23,7 +24,7 @@ public interface UserMapper {
     UserListDTO userListDtoFromUser(User user);
 
     @Mappings({
-            @Mapping(target = "name", source = "user.username"),
+            @Mapping(target = "username", source = "user.username"),
             @Mapping(target = "roles", ignore = true)
     })
     UserDTO userDtoFromUser(User user);
@@ -35,9 +36,17 @@ public interface UserMapper {
 
 
     @Mappings({
-            @Mapping(target= "username", source="user.name"),
+            @Mapping(target= "username", source="user.username"),
             @Mapping(target="email", source="user.email"),
             @Mapping(target = "roles", ignore = true)
     })
     User fromDto(UserDTO user);
+
+    @Mappings({
+            @Mapping(target= "username", source="user.username"),
+            @Mapping(target="email", source="user.email"),
+            @Mapping(target="password", source="user.password"),
+            @Mapping(target = "roles", ignore = true)
+    })
+    User userFromUserCreationDTO(UserCreationDTO user);
 }

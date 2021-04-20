@@ -58,7 +58,7 @@ class UserControllerTest extends BaseControllerTest {
         roles.add(String.valueOf(EMPLOYEE));
         UserDTO reqUser = UserDTO.builder()
                 .id(id)
-                .name(randomString())
+                .username(randomString())
                 .email(randomEmail())
                 .roles(roles)
                 .build();
@@ -77,7 +77,7 @@ class UserControllerTest extends BaseControllerTest {
         roles.add(String.valueOf(EMPLOYEE));
         UserDTO reqUser = UserDTO.builder()
                 .id(id)
-                .name(randomString())
+                .username(randomString())
                 .email(randomEmail())
                 .roles(roles)
                 .build();
