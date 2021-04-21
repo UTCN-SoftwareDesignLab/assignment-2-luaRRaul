@@ -19,12 +19,15 @@ public class CSVReportService implements ReportService {
         List<Book> books = bookRepository.findBookByQuantity(0);
         StringBuilder reportBuilder = new StringBuilder();
         reportBuilder.append(HEADER);
+        reportBuilder.append("\n");
         for (Book book : books) {
             reportBuilder.append(book.getId());
             reportBuilder.append(",");
             reportBuilder.append(book.getTitle());
             reportBuilder.append(",");
             reportBuilder.append(book.getAuthor());
+            reportBuilder.append(",");
+            reportBuilder.append(book.getGenre());
             reportBuilder.append(",");
             reportBuilder.append(book.getPrice());
             reportBuilder.append("\n");
